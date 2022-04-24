@@ -1,18 +1,34 @@
 import { useQuery } from '@apollo/client'
+import { useState } from 'react'
 
-import { ALL_BOOKS } from '../queries'
+import { GENRES, FIND_GENRE_BOOKS } from '../queries'
 
 const Books = (props) => {
-  const result = useQuery(ALL_BOOKS)
+  const [genreToSearch, setgenreToSearch] = useState(null)
+  const result = useQuery(FIND_GENRE_BOOKS, {
+    variables: { genreToSearch },
+    fetchPolicy: 'no-cache',
+  })
+  const genre_result = useQuery(GENRES)
+
   if (!props.show || result.loading) {
     return null
   }
 
   const books = result.data.allBooks
 
+  const genres = genre_result.data.allBooks
+  let minigenres = []
+  genres.forEach((element) => {
+    minigenres = minigenres.concat(element.genres)
+  })
+  const genreSet = new Set(minigenres)
+
   return (
     <div>
       <h2>books</h2>
+
+      <div>{genreToSearch ? `in genre ${genreToSearch}` : 'in all genres'}</div>
 
       <table>
         <tbody>
@@ -30,6 +46,13 @@ const Books = (props) => {
           ))}
         </tbody>
       </table>
+      <h2>Genres</h2>
+      {[...genreSet].map((a) => (
+        <button key={a} onClick={() => setgenreToSearch(a)}>
+          {a}
+        </button>
+      ))}
+      <button onClick={() => setgenreToSearch(null)}>all genres</button>
     </div>
   )
 }

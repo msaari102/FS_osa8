@@ -21,6 +21,21 @@ export const ALL_BOOKS = gql`
     }
   }
 `
+export const GENRES = gql`
+  query {
+    allBooks {
+      genres
+    }
+  }
+`
+
+export const ME = gql`
+  query {
+    me {
+      favoriteGenre
+    }
+  }
+`
 
 export const CREATE_BOOK = gql`
   mutation createBook(
@@ -45,16 +60,14 @@ export const CREATE_BOOK = gql`
   }
 `
 
-export const FIND_PERSON = gql`
-  query findPersonByName($nameToSearch: String!) {
-    findPerson(name: $nameToSearch) {
-      name
-      phone
-      id
-      address {
-        street
-        city
+export const FIND_GENRE_BOOKS = gql`
+  query findBookByGenre($genreToSearch: String) {
+    allBooks(genre: $genreToSearch) {
+      title
+      author {
+        name
       }
+      published
     }
   }
 `
