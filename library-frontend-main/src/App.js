@@ -36,6 +36,8 @@ const App = () => {
     client.resetStore()
   }
 
+  console.log(user)
+
   if (user.loading) return null
 
   const favoriteGenre = user.data.me ? user.data.me.favoriteGenre : null
