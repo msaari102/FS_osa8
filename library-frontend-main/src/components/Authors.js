@@ -15,7 +15,9 @@ const Authors = (props) => {
     },
   })
 
-  const result = useQuery(ALL_AUTHORS)
+  const result = useQuery(ALL_AUTHORS, {
+    fetchPolicy: 'cache-and-network',
+  })
   if (!props.show || result.loading) {
     return null
   }

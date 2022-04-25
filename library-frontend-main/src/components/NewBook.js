@@ -1,5 +1,4 @@
 import { useState } from 'react'
-
 import { useMutation } from '@apollo/client'
 import {
   ALL_AUTHORS,
@@ -16,11 +15,7 @@ const NewBook = (props) => {
   const [genres, setGenres] = useState([])
 
   const [createBook] = useMutation(CREATE_BOOK, {
-    refetchQueries: [
-      { query: ALL_BOOKS },
-      { query: ALL_AUTHORS },
-      { query: FIND_GENRE_BOOKS },
-    ],
+    refetchQueries: [ALL_AUTHORS, FIND_GENRE_BOOKS],
     onError: (error) => {
       console.log(error.graphQLErrors[0].message)
     },

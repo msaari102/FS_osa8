@@ -1,24 +1,12 @@
-import { useQuery } from '@apollo/client'
-
-import { FIND_GENRE_BOOKS, ME } from '../queries'
-
 const Recommend = (props) => {
-  const genreToSearch = props.genre
-  const result = useQuery(FIND_GENRE_BOOKS, {
-    variables: { genreToSearch },
-    fetchPolicy: 'no-cache',
-  })
-
-  if (!props.show || result.loading) {
+  if (!props.show) {
     return null
   }
-
-  const books = result.data.allBooks
 
   return (
     <div>
       <h2>recommendations</h2>
-      <div>books in your favorite genre {props.genre}</div>
+      <div>books in your favorite genre {props.favoriteGenre}</div>
 
       <table>
         <tbody>
@@ -27,7 +15,7 @@ const Recommend = (props) => {
             <th>author</th>
             <th>published</th>
           </tr>
-          {books.map((a) => (
+          {props.books.map((a) => (
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
